@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -84,16 +84,28 @@
 
 
 
-<meta name="description" content="一个小码农">
+<meta name="description" content="Toast解析使用一句话: makeText(Context context, CharSequence text,  int duration).show();```123## makeText直接上代码:
+/**
+
+Make a standard toast that just contains a text view.*
+@param context  The context to use.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Toast">
 <meta property="og:url" content="http://yoursite.com/2016/08/13/Toast/index.html">
 <meta property="og:site_name" content="纸上得来">
-<meta property="og:description" content="一个小码农">
-<meta property="og:updated_time" content="2016-08-12T17:38:16.000Z">
+<meta property="og:description" content="Toast解析使用一句话: makeText(Context context, CharSequence text,  int duration).show();```123## makeText直接上代码:
+/**
+
+Make a standard toast that just contains a text view.*
+@param context  The context to use.">
+<meta property="og:updated_time" content="2016-08-12T17:41:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Toast">
-<meta name="twitter:description" content="一个小码农">
+<meta name="twitter:description" content="Toast解析使用一句话: makeText(Context context, CharSequence text,  int duration).show();```123## makeText直接上代码:
+/**
+
+Make a standard toast that just contains a text view.*
+@param context  The context to use.">
 
 
 
@@ -271,7 +283,118 @@
       
 
       
-        
+        <h1 id="Toast解析"><a href="#Toast解析" class="headerlink" title="Toast解析"></a>Toast解析</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>一句话: <figure class="highlight plain"><figcaption><span>makeText(Context context, CharSequence text,  int duration).show();```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## makeText</div><div class="line">直接上代码:</div></pre></td></tr></table></figure></p>
+<p>/**</p>
+<ul>
+<li>Make a standard toast that just contains a text view.<br>*</li>
+<li>@param context  The context to use.  Usually your {@link android.app.Application}</li>
+<li>or {@link android.app.Activity} object.</li>
+<li>@param text     The text to show.  Can be formatted text.</li>
+<li>@param duration How long to display the message.  Either {@link #LENGTH_SHORT} or</li>
+<li><p>{@link #LENGTH_LONG}<br><em>
+</em>/<br>public static Toast makeText(Context context, CharSequence text, @Duration int duration) {<br>Toast result = new Toast(context);</p>
+<p>LayoutInflater inflate = (LayoutInflater)<br>context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);<br>View v = inflate.inflate(com.android.internal.R.layout.transient_notification, null);<br>TextView tv = (TextView)v.findViewById(com.android.internal.R.id.message);<br>tv.setText(text);</p>
+<p>result.mNextView = v;<br>result.mDuration = duration;</p>
+<p>return result;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">很简单,就是构造了一个Toast出来,设置了Toast的布局以及Toast的显示时间.</div><div class="line"></div><div class="line">## show</div><div class="line">同样先上代码:</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li><p>Show the view for the specified duration.<br>*/<br>public void show() {<br> if (mNextView == null) {</p>
+<pre><code>throw new RuntimeException(&quot;setView must have been called&quot;);
+</code></pre><p> }</p>
+<p> INotificationManager service = getService();<br> String pkg = mContext.getOpPackageName();<br> TN tn = mTN;<br> tn.mNextView = mNextView;</p>
+<p> try {</p>
+<pre><code>service.enqueueToast(pkg, tn, mDuration);
+</code></pre><p> } catch (RemoteException e) {</p>
+<pre><code>// Empty
+</code></pre><p> }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">先判断mNextView,就是Toast的布局是否为空,如果是,直接抛出异常.接着来看看getService()做了什么.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>static private INotificationManager getService() {<br>    if (sService != null) {<br>        return sService;<br>    }<br>    sService = INotificationManager.Stub.asInterface(ServiceManager.getService(“notification”));<br>    return sService;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">获取远程接口,实现类是NotificationManagerService.来看看这个服务中的enqueueToast()</div><div class="line">方法.</div></pre></td></tr></table></figure></p>
+<p>@Override<br>public void enqueueToast(String pkg, ITransientNotification callback, int duration)<br>{<br>    ……<br>    synchronized (mToastQueue) {<br>        int callingPid = Binder.getCallingPid();<br>        long callingId = Binder.clearCallingIdentity();<br>        try {<br>            ToastRecord record;<br>            int index = indexOfToastLocked(pkg, callback);<br>            // If it’s already in the queue, we update it in place, we don’t<br>            // move it to the end of the queue.<br>            if (index &gt;= 0) {<br>                record = mToastQueue.get(index);<br>                record.update(duration);<br>            } else {<br>                // Limit the number of toasts that any given package except the android<br>                // package can enqueue.  Prevents DOS attacks and deals with leaks.<br>                if (!isSystemToast) {<br>                    int count = 0;<br>                    final int N = mToastQueue.size();<br>                    for (int i=0; i<n; i++)="" {="" final="" toastrecord="" r="mToastQueue.get(i);" if="" (r.pkg.equals(pkg))="" count++;="" (count="">= MAX_PACKAGE_NOTIFICATIONS) {<br>                                 Slog.e(TAG, “Package has already posted “ + count</n;></p>
+<pre><code>                                    + &quot; toasts. Not showing more. Package=&quot; + pkg);
+                             return;
+                         }
+                     }
+                }
+            }
+
+            record = new ToastRecord(callingPid, pkg, callback, duration);
+            mToastQueue.add(record);
+            index = mToastQueue.size() - 1;
+            keepProcessAliveLocked(callingPid);
+        }
+        // If it&apos;s at index 0, it&apos;s the current toast.  It doesn&apos;t matter if it&apos;s
+        // new or just been updated.  Call back and tell it to show itself.
+        // If the callback fails, this will remove it from the list, so don&apos;t
+        // assume that it&apos;s valid after this.
+        if (index == 0) {
+            showNextToastLocked();
+        }
+    } finally {
+        Binder.restoreCallingIdentity(callingId);
+    }
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">上面的核心代码很简单,就是先构造出ToastRecord, 并加入队列中.最后有一个判断:</div></pre></td></tr></table></figure></p>
+<p>if (index == 0) {<br>    showNextToastLocked();<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">看注释,如果index=0,那就是当前Toast,并显示它.来看看showNextToastLocked()</div></pre></td></tr></table></figure></p>
+<p>void showNextToastLocked() {<br>        ToastRecord record = mToastQueue.get(0);<br>        while (record != null) {<br>            if (DBG) Slog.d(TAG, “Show pkg=” + record.pkg + “ callback=” + record.callback);<br>            try {<br>                record.callback.show();<br>                scheduleTimeoutLocked(record);<br>                return;<br>            } catch (RemoteException e) {<br>                Slog.w(TAG, “Object died trying to show notification “ + record.callback</p>
+<pre><code>                    + &quot; in package &quot; + record.pkg);
+            // remove it from the list and let the process die
+            int index = mToastQueue.indexOf(record);
+            if (index &gt;= 0) {
+                mToastQueue.remove(index);
+            }
+            keepProcessAliveLocked(record.pid);
+            if (mToastQueue.size() &gt; 0) {
+                record = mToastQueue.get(0);
+            } else {
+                record = null;
+            }
+        }
+    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">最重要的一句:record.callback.show(). 这个callback是ITransientNotification, 其实现类</div><div class="line">是Toast的静态内部类TN. 这个show方法才是真正的显示Toast的方法,并且最终调用的是handleShow</div></pre></td></tr></table></figure>
+<p>public void handleShow() {<br>    if (localLOGV) Log.v(TAG, “HANDLE SHOW: “ + this + “ mView=” + mView</p>
+<pre><code>        + &quot; mNextView=&quot; + mNextView);
+if (mView != mNextView) {
+    // remove the old view if necessary
+    handleHide();
+    mView = mNextView;
+    Context context = mView.getContext().getApplicationContext();
+    String packageName = mView.getContext().getOpPackageName();
+    if (context == null) {
+        context = mView.getContext();
+    }
+    mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+    // We can resolve the Gravity here by using the Locale for getting
+    // the layout direction
+    final Configuration config = mView.getContext().getResources().getConfiguration();
+    final int gravity = Gravity.getAbsoluteGravity(mGravity, config.getLayoutDirection());
+    mParams.gravity = gravity;
+    if ((gravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL) {
+        mParams.horizontalWeight = 1.0f;
+    }
+    if ((gravity &amp; Gravity.VERTICAL_GRAVITY_MASK) == Gravity.FILL_VERTICAL) {
+        mParams.verticalWeight = 1.0f;
+    }
+    mParams.x = mX;
+    mParams.y = mY;
+    mParams.verticalMargin = mVerticalMargin;
+    mParams.horizontalMargin = mHorizontalMargin;
+    mParams.packageName = packageName;
+    if (mView.getParent() != null) {
+        if (localLOGV) Log.v(TAG, &quot;REMOVE! &quot; + mView + &quot; in &quot; + this);
+        mWM.removeView(mView);
+    }
+    if (localLOGV) Log.v(TAG, &quot;ADD! &quot; + mView + &quot; in &quot; + this);
+    mWM.addView(mView, mParams);
+    trySendAccessibilityEvent();
+}
+</code></pre><p>}<br><code>到</code> mWM.addView(mView, mParams);```,Toast就显示出来了.</p>
+
       
     </div>
 
@@ -289,6 +412,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
       
 
       
@@ -363,6 +492,13 @@
           
 
           
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
 
         </nav>
 
@@ -387,7 +523,7 @@
               
             
             
-              <p class="post-toc-empty">Dieser Artikel hat kein Inhaltsverzeichnis</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Toast解析"><span class="nav-number">1.</span> <span class="nav-text">Toast解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.1.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
