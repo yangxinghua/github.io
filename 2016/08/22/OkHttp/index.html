@@ -1,0 +1,575 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="OKHttp3使用12345678910111213141516171819private void download(String url) &amp;#123;    OkHttpClient client = new OkHttpClient();    final Request request = new Request.Builder()            .url(url)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="纸上得来">
+<meta property="og:url" content="http://yoursite.com/2016/08/22/OkHttp/index.html">
+<meta property="og:site_name" content="纸上得来">
+<meta property="og:description" content="OKHttp3使用12345678910111213141516171819private void download(String url) &amp;#123;    OkHttpClient client = new OkHttpClient();    final Request request = new Request.Builder()            .url(url)">
+<meta property="og:updated_time" content="2016-08-21T16:46:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="纸上得来">
+<meta name="twitter:description" content="OKHttp3使用12345678910111213141516171819private void download(String url) &amp;#123;    OkHttpClient client = new OkHttpClient();    final Request request = new Request.Builder()            .url(url)">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>  | 纸上得来 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">纸上得来</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T00:46:58+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="OKHttp3"><a href="#OKHttp3" class="headerlink" title="OKHttp3"></a>OKHttp3</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">private void download(String url) &#123;</div><div class="line">    OkHttpClient client = new OkHttpClient();</div><div class="line">    final Request request = new Request.Builder()</div><div class="line">            .url(url)</div><div class="line">            .build();</div><div class="line">    Call call = client.newCall(request);</div><div class="line">    call.enqueue(new Callback() &#123;</div><div class="line">        @Override</div><div class="line">        public void onFailure(Call call, IOException e) &#123;</div><div class="line">            Log.d(TAG, e.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">            Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());</div><div class="line">            mImageView.setImageBitmap(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>OkHttpClient的构造方法里面调用了默认的建造者来对属性赋值.接着同样的使用建造者来构建了一个Request<br>看一下这个Request的Builder的构造方法.这里的默认连接方式是GET.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">    this.method = &quot;GET&quot;;</div><div class="line">    this.headers = new Headers.Builder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面看一下client的newCall方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">   * Prepares the &#123;@code request&#125; to be executed at some point in the future.</div><div class="line">   */</div><div class="line">  @Override public Call newCall(Request request) &#123;</div><div class="line">    return new RealCall(this, request);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>没有做什么,就是创建了一个RealCall对象.</p>
+<p>看下call的enqueue方法,这里添加了一个Callback回调.看下Call的enqueue方法是由其子<br>类RealCall实现的.下面是RealCall的enqueue方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override public void enqueue(Callback responseCallback) &#123;</div><div class="line">    synchronized (this) &#123;</div><div class="line">      if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</div><div class="line">      executed = true;</div><div class="line">    &#125;</div><div class="line">    client.dispatcher().enqueue(new AsyncCall(responseCallback));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>这里通过再将RealCall封装成AsyncCall然后加入到线程池中.这里的AsyncCall是一个Runnable.方法实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">synchronized void enqueue(AsyncCall call) &#123;</div><div class="line">    if (runningAsyncCalls.size() &lt; maxRequests &amp;&amp; runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">      runningAsyncCalls.add(call);</div><div class="line">      executorService().execute(call);</div><div class="line">    &#125; else &#123;</div><div class="line">      readyAsyncCalls.add(call);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先判断正在进行的任务,如果没有到maxRequests(64),并且具有相同host的任务没有到<br>maxRequestsPerHost(5),则立即执行该任务,否则加入到等待的队列中.</p>
+<p>那么执行具体任务就应该在AsyncCall的run方法中,AsyncCall的run方法是由其父类NamedRunnable<br>实现了,最后会调用那个到AsyncCall的excute方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">@Override protected void execute() &#123;</div><div class="line">      boolean signalledCallback = false;</div><div class="line">      try &#123;</div><div class="line">        Response response = getResponseWithInterceptorChain();</div><div class="line">        if (retryAndFollowUpInterceptor.isCanceled()) &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onFailure(RealCall.this, new IOException(&quot;Canceled&quot;));</div><div class="line">        &#125; else &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onResponse(RealCall.this, response);</div><div class="line">        &#125;</div><div class="line">      &#125; catch (IOException e) &#123;</div><div class="line">        if (signalledCallback) &#123;</div><div class="line">          // Do not signal the callback twice!</div><div class="line">          Platform.get().log(INFO, &quot;Callback failure for &quot; + toLoggableString(), e);</div><div class="line">        &#125; else &#123;</div><div class="line">          responseCallback.onFailure(RealCall.this, e);</div><div class="line">        &#125;</div><div class="line">      &#125; finally &#123;</div><div class="line">        client.dispatcher().finished(this);</div><div class="line">      &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>通过<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">调用Callbak的onFailure, 否则回调onResponse.最后告诉dispatcher自己执行完了.然后</div><div class="line">dispatcher就会拉取下一个任务.</div><div class="line"></div><div class="line">重头戏来了.接下来是整个OkHttp的精华部分.我们是怎么样获取到Response的?</div></pre></td></tr></table></figure></p>
+<p>private Response getResponseWithInterceptorChain() throws IOException {<br>   // Build a full stack of interceptors.<br>   List<interceptor> interceptors = new ArrayList&lt;&gt;();<br>   interceptors.addAll(client.interceptors());<br>   interceptors.add(retryAndFollowUpInterceptor);<br>   interceptors.add(new BridgeInterceptor(client.cookieJar()));<br>   interceptors.add(new CacheInterceptor(client.internalCache()));<br>   interceptors.add(new ConnectInterceptor(client));<br>   if (!retryAndFollowUpInterceptor.isForWebSocket()) {<br>     interceptors.addAll(client.networkInterceptors());<br>   }<br>   interceptors.add(new CallServerInterceptor(<br>       retryAndFollowUpInterceptor.isForWebSocket()));</interceptor></p>
+<p>   Interceptor.Chain chain = new RealInterceptorChain(<br>       interceptors, null, null, null, 0, originalRequest);<br>   return chain.proceed(originalRequest);<br> }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">在上面的方法中，加入了一堆的拦截器，按照一下顺序来拦截:</div><div class="line">1. RetryAndFollowUpInterceptor:创建连接池，路由表。如果Response code无法识别，进行重试。</div><div class="line">1. Bridgeinterceptor:构建http请求头部。进入下一个拦截器。</div><div class="line">2. CacheInterceptor:根据http请求消息查找缓存。如果没有，进入下一个拦截器。</div><div class="line">3. ConnectInterceptor:建立链接，进入下一个拦截器。</div><div class="line">4. CallServerInterceptor:构建http请求行以及http请求体，向服务器发送请求，并返回Response。</div><div class="line"></div><div class="line">当这个任务执行完后，在AsyncCall的finally中会通知client自己完成了。</div></pre></td></tr></table></figure></p>
+<p>} finally {<br>  client.dispatcher().finished(this);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">最终会调到Dispatcher的以下finish方法</div></pre></td></tr></table></figure></p>
+<p>private <t> void finished(Deque<t> calls, T call, boolean promoteCalls) {<br>  int runningCallsCount;<br>  Runnable idleCallback;<br>  synchronized (this) {<br>    if (!calls.remove(call)) throw new AssertionError(“Call wasn’t in-flight!”);<br>    if (promoteCalls) promoteCalls();<br>    runningCallsCount = runningCallsCount();<br>    idleCallback = this.idleCallback;<br>  }</t></t></p>
+<p>  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) {<br>    idleCallback.run();<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这里的promoteCalls就会从队列中取出下一个任务并执行</div></pre></td></tr></table></figure></p>
+<p>private void promoteCalls() {<br>    if (runningAsyncCalls.size() &gt;= maxRequests) return; // Already running max capacity.<br>    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.</p>
+<pre><code>for (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) {
+  AsyncCall call = i.next();
+
+  if (runningCallsForHost(call) &lt; maxRequestsPerHost) {
+    i.remove();
+    runningAsyncCalls.add(call);
+    executorService().execute(call);
+  }
+
+  if (runningAsyncCalls.size() &gt;= maxRequests) return; // Reached max capacity.
+}
+</code></pre><p>  }<br>```</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/13/Toast/" rel="next" title="Toast">
+                <i class="fa fa-chevron-left"></i> Toast
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/nev.jpg"
+               alt="Yang" />
+          <p class="site-author-name" itemprop="name">Yang</p>
+          <p class="site-description motion-element" itemprop="description">一个小码农</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OKHttp3"><span class="nav-number">1.</span> <span class="nav-text">OKHttp3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.1.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
