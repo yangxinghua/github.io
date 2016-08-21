@@ -234,7 +234,7 @@
               
                 
                 <a class="post-title-link" href="/2016/08/22/OkHttp/" itemprop="url">
-                  未命名
+                  OkHttp3
                 </a>
               
             
@@ -247,7 +247,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T00:46:58+08:00" content="2016-08-22">
+            <time itemprop="dateCreated" datetime="2016-08-22T00:51:49+08:00" content="2016-08-22">
               2016-08-22
             </time>
           </span>
@@ -278,7 +278,7 @@
         
           
             <h1 id="OKHttp3"><a href="#OKHttp3" class="headerlink" title="OKHttp3"></a>OKHttp3</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">private void download(String url) &#123;</div><div class="line">    OkHttpClient client = new OkHttpClient();</div><div class="line">    final Request request = new Request.Builder()</div><div class="line">            .url(url)</div><div class="line">            .build();</div><div class="line">    Call call = client.newCall(request);</div><div class="line">    call.enqueue(new Callback() &#123;</div><div class="line">        @Override</div><div class="line">        public void onFailure(Call call, IOException e) &#123;</div><div class="line">            Log.d(TAG, e.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">            Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());</div><div class="line">            mImageView.setImageBitmap(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>OkHttpClient的构造方法里面调用了默认的建造者来对属性赋值.接着同样的使用建造者来构建了一个Request<br>看一下这个Request的Builder的构造方法.这里的默认连接方式是GET.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">    this.method = &quot;GET&quot;;</div><div class="line">    this.headers = new Headers.Builder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>OkHttpClient的构造方法里面调用了默认的建造者来对属性赋值.接着同样的使用建造者来构建了一个Request<br>看一下这个Request的Builder的构造方法.这里的默认连接方式是GET.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">    this.method = &quot;GET&quot;;</div><div class="line">    this.headers = new Headers.Builder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>下面看一下client的newCall方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">   * Prepares the &#123;@code request&#125; to be executed at some point in the future.</div><div class="line">   */</div><div class="line">  @Override public Call newCall(Request request) &#123;</div><div class="line">    return new RealCall(this, request);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
 <p>没有做什么,就是创建了一个RealCall对象.</p>
 <p>看下call的enqueue方法,这里添加了一个Callback回调.看下Call的enqueue方法是由其子<br>类RealCall实现的.下面是RealCall的enqueue方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override public void enqueue(Callback responseCallback) &#123;</div><div class="line">    synchronized (this) &#123;</div><div class="line">      if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</div><div class="line">      executed = true;</div><div class="line">    &#125;</div><div class="line">    client.dispatcher().enqueue(new AsyncCall(responseCallback));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
