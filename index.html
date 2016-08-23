@@ -233,7 +233,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/22/OkHttp/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/23/OkHttp/" itemprop="url">
                   OkHttp3
                 </a>
               
@@ -247,14 +247,21 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T19:26:46+08:00" content="2016-08-22">
-              2016-08-22
+            <time itemprop="dateCreated" datetime="2016-08-23T22:54:22+08:00" content="2016-08-23">
+              2016-08-23
             </time>
           </span>
 
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/23/OkHttp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/OkHttp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -371,6 +378,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/13/Toast/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/13/Toast/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -439,7 +453,26 @@
 
           </div>
           
-
+<% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="<%= post.layout %>-<%= post.slug %>" data-title="<%= post.title %>" data-url="<%= page.permalink %>"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'<%= config.duoshuo_shortname %>'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
 
           
 
@@ -618,9 +651,28 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Shot"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+  
+
+
 
 
 

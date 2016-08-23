@@ -255,6 +255,13 @@ makeText直接上代码:123456789101112131415161718192021222324/** * Make a stan
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/13/Toast/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/13/Toast/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -320,7 +327,7 @@ makeText直接上代码:123456789101112131415161718192021222324/** * Make a stan
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/22/OkHttp/" rel="prev" title="OkHttp3">
+              <a href="/2016/08/23/OkHttp/" rel="prev" title="OkHttp3">
                 OkHttp3 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -343,10 +350,33 @@ makeText直接上代码:123456789101112131415161718192021222324/** * Make a stan
 
           </div>
           
-
+<% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="<%= post.layout %>-<%= post.slug %>" data-title="<%= post.title %>" data-url="<%= page.permalink %>"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'<%= config.duoshuo_shortname %>'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
 
           
   <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/13/Toast/"
+           data-title="Toast" data-url="http://yoursite.com/2016/08/13/Toast/">
+      </div>
     
   </div>
 
@@ -550,9 +580,28 @@ makeText直接上代码:123456789101112131415161718192021222324/** * Make a stan
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Shot"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+  
+
+
 
 
 

@@ -242,7 +242,7 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/2016/08/22/OkHttp/" itemprop="url">
+            <a class="post-title-link" href="/2016/08/23/OkHttp/" itemprop="url">
               
                 <span itemprop="name">OkHttp3</span>
               
@@ -252,9 +252,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-22T19:26:46+08:00"
-              content="2016-08-22" >
-          08-22
+              datetime="2016-08-23T22:54:22+08:00"
+              content="2016-08-23" >
+          08-23
         </time>
       </div>
 
@@ -310,7 +310,26 @@
 
           </div>
           
-
+<% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="<%= post.layout %>-<%= post.slug %>" data-title="<%= post.title %>" data-url="<%= page.permalink %>"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'<%= config.duoshuo_shortname %>'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
 
           
 
@@ -495,9 +514,28 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Shot"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+  
+
+
 
 
 
