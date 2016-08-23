@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -84,15 +84,16 @@
 
 
 
-<meta name="description" content="一个小码农">
-<meta property="og:type" content="website">
-<meta property="og:title" content="纸上得来">
-<meta property="og:url" content="http://yoursite.com/archives/2016/08/index.html">
+<meta name="description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaunchMode">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/LaunchMode/index.html">
 <meta property="og:site_name" content="纸上得来">
-<meta property="og:description" content="一个小码农">
+<meta property="og:description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
+<meta property="og:updated_time" content="2016-08-23T17:29:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="纸上得来">
-<meta name="twitter:description" content="一个小码农">
+<meta name="twitter:title" content="LaunchMode">
+<meta name="twitter:description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
 
 
 
@@ -110,7 +111,7 @@
   };
 </script>
 
-  <title> 归档 | 纸上得来 </title>
+  <title> LaunchMode | 纸上得来 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,7 +132,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -209,140 +210,129 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 3 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/08/24/OkHttp/" itemprop="url">
-              
-                <span itemprop="name">OkHttp3</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-24T01:29:49+08:00"
-              content="2016-08-24" >
-          08-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
-              
-                <span itemprop="name">LaunchMode</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-24T00:00:00+08:00"
-              content="2016-08-24" >
-          08-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/08/13/Toast/" itemprop="url">
-              
-                <span itemprop="name">Toast</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-13T01:38:16+08:00"
-              content="2016-08-13" >
-          08-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
+  
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                LaunchMode
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
+<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
+<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
+<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
+<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/13/Toast/" rel="next" title="Toast">
+                <i class="fa fa-chevron-left"></i> Toast
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/24/OkHttp/" rel="prev" title="OkHttp3">
+                OkHttp3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -369,6 +359,10 @@
   <% } %>
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -388,8 +382,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/nev.jpg"
@@ -432,6 +435,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity-LaunchMode"><span class="nav-number">1.</span> <span class="nav-text">Activity LaunchMode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#standard"><span class="nav-number">1.1.</span> <span class="nav-text">standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleTop"><span class="nav-number">1.2.</span> <span class="nav-text">singleTop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleTask"><span class="nav-number">1.3.</span> <span class="nav-text">singleTask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleInstance"><span class="nav-number">1.4.</span> <span class="nav-text">singleInstance</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -535,11 +549,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   
