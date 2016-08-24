@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/22/OkHttp/index.html">
 <meta property="og:site_name" content="纸上得来">
 <meta property="og:description" content="OKHttp3使用12345678910111213141516171819private void download(String url) &amp;#123;    OkHttpClient client = new OkHttpClient();    final Request request = new Request.Builder()            .url(url)">
-<meta property="og:updated_time" content="2016-08-22T11:26:35.000Z">
+<meta property="og:updated_time" content="2016-08-24T17:26:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OkHttp3">
 <meta name="twitter:description" content="OKHttp3使用12345678910111213141516171819private void download(String url) &amp;#123;    OkHttpClient client = new OkHttpClient();    final Request request = new Request.Builder()            .url(url)">
@@ -243,7 +243,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T19:26:46+08:00" content="2016-08-22">
+            <time itemprop="dateCreated" datetime="2016-08-22T00:00:00+08:00" content="2016-08-22">
               2016-08-22
             </time>
           </span>
@@ -331,6 +331,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/08/24/LaunchMode/" rel="prev" title="LaunchMode">
+                LaunchMode <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -350,7 +354,26 @@
 
           </div>
           
-
+<% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="<%= post.layout %>-<%= post.slug %>" data-title="<%= post.title %>" data-url="<%= page.permalink %>"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'<%= config.duoshuo_shortname %>'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
 
           
   <div class="comments" id="comments">
@@ -397,7 +420,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -233,121 +233,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/25/OkHttp/" itemprop="url">
-                  OkHttp3
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-25T01:25:18+08:00" content="2016-08-25">
-              2016-08-25
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="OKHttp3"><a href="#OKHttp3" class="headerlink" title="OKHttp3"></a>OKHttp3</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">private void download(String url) &#123;</div><div class="line">    OkHttpClient client = new OkHttpClient();</div><div class="line">    final Request request = new Request.Builder()</div><div class="line">            .url(url)</div><div class="line">            .build();</div><div class="line">    Call call = client.newCall(request);</div><div class="line">    call.enqueue(new Callback() &#123;</div><div class="line">        @Override</div><div class="line">        public void onFailure(Call call, IOException e) &#123;</div><div class="line">            Log.d(TAG, e.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">            Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());</div><div class="line">            mImageView.setImageBitmap(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>OkHttpClient的构造方法里面调用了默认的建造者来对属性赋值.接着同样的使用建造者来构建了一个Request<br>看一下这个Request的Builder的构造方法.这里的默认连接方式是GET.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">    this.method = &quot;GET&quot;;</div><div class="line">    this.headers = new Headers.Builder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>下面看一下client的newCall方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">   * Prepares the &#123;@code request&#125; to be executed at some point in the future.</div><div class="line">   */</div><div class="line">  @Override public Call newCall(Request request) &#123;</div><div class="line">    return new RealCall(this, request);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>没有做什么,就是创建了一个RealCall对象.</p>
-<p>看下call的enqueue方法,这里添加了一个Callback回调.看下Call的enqueue方法是由其子<br>类RealCall实现的.下面是RealCall的enqueue方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override public void enqueue(Callback responseCallback) &#123;</div><div class="line">    synchronized (this) &#123;</div><div class="line">      if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</div><div class="line">      executed = true;</div><div class="line">    &#125;</div><div class="line">    client.dispatcher().enqueue(new AsyncCall(responseCallback));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>这里通过再将RealCall封装成AsyncCall然后加入到线程池中.这里的AsyncCall是一个Runnable.方法实现如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">synchronized void enqueue(AsyncCall call) &#123;</div><div class="line">    if (runningAsyncCalls.size() &lt; maxRequests &amp;&amp; runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">      runningAsyncCalls.add(call);</div><div class="line">      executorService().execute(call);</div><div class="line">    &#125; else &#123;</div><div class="line">      readyAsyncCalls.add(call);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>首先判断正在进行的任务,如果没有到maxRequests(64),并且具有相同host的任务没有到<br>maxRequestsPerHost(5),则立即执行该任务,否则加入到等待的队列中.</p>
-<p>那么执行具体任务就应该在AsyncCall的run方法中,AsyncCall的run方法是由其父类NamedRunnable<br>实现了,最后会调用那个到AsyncCall的excute方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">@Override protected void execute() &#123;</div><div class="line">      boolean signalledCallback = false;</div><div class="line">      try &#123;</div><div class="line">        Response response = getResponseWithInterceptorChain();</div><div class="line">        if (retryAndFollowUpInterceptor.isCanceled()) &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onFailure(RealCall.this, new IOException(&quot;Canceled&quot;));</div><div class="line">        &#125; else &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onResponse(RealCall.this, response);</div><div class="line">        &#125;</div><div class="line">      &#125; catch (IOException e) &#123;</div><div class="line">        if (signalledCallback) &#123;</div><div class="line">          // Do not signal the callback twice!</div><div class="line">          Platform.get().log(INFO, &quot;Callback failure for &quot; + toLoggableString(), e);</div><div class="line">        &#125; else &#123;</div><div class="line">          responseCallback.onFailure(RealCall.this, e);</div><div class="line">        &#125;</div><div class="line">      &#125; finally &#123;</div><div class="line">        client.dispatcher().finished(this);</div><div class="line">      &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>通过getResponseWithInterceptorChain();得到了我们想要的Response.如果任务取消了,<br>调用Callbak的onFailure, 否则回调onResponse.最后告诉dispatcher自己执行完了.然后<br>dispatcher就会拉取下一个任务.</p>
-<p>重头戏来了.接下来是整个OkHttp的精华部分.我们是怎么样获取到Response的?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">private Response getResponseWithInterceptorChain() throws IOException &#123;</div><div class="line">   // Build a full stack of interceptors.</div><div class="line">   List&lt;Interceptor&gt; interceptors = new ArrayList&lt;&gt;();</div><div class="line">   interceptors.addAll(client.interceptors());</div><div class="line">   interceptors.add(retryAndFollowUpInterceptor);</div><div class="line">   interceptors.add(new BridgeInterceptor(client.cookieJar()));</div><div class="line">   interceptors.add(new CacheInterceptor(client.internalCache()));</div><div class="line">   interceptors.add(new ConnectInterceptor(client));</div><div class="line">   if (!retryAndFollowUpInterceptor.isForWebSocket()) &#123;</div><div class="line">     interceptors.addAll(client.networkInterceptors());</div><div class="line">   &#125;</div><div class="line">   interceptors.add(new CallServerInterceptor(</div><div class="line">       retryAndFollowUpInterceptor.isForWebSocket()));</div><div class="line"></div><div class="line">   Interceptor.Chain chain = new RealInterceptorChain(</div><div class="line">       interceptors, null, null, null, 0, originalRequest);</div><div class="line">   return chain.proceed(originalRequest);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
-<p>在上面的方法中，加入了一堆的拦截器，按照一下顺序来拦截:</p>
-<ol>
-<li>RetryAndFollowUpInterceptor:创建连接池，路由表。如果Response code无法识别，进行重试。</li>
-<li>Bridgeinterceptor:构建http请求头部。进入下一个拦截器。</li>
-<li>CacheInterceptor:根据http请求消息查找缓存。如果没有，进入下一个拦截器。</li>
-<li>ConnectInterceptor:建立链接，进入下一个拦截器。</li>
-<li>CallServerInterceptor:构建http请求行以及http请求体，向服务器发送请求，并返回Response。</li>
-</ol>
-<p>当这个任务执行完后，在AsyncCall的finally中会通知client自己完成了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#125; finally &#123;</div><div class="line">  client.dispatcher().finished(this);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最终会调到Dispatcher的以下finish方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private &lt;T&gt; void finished(Deque&lt;T&gt; calls, T call, boolean promoteCalls) &#123;</div><div class="line">  int runningCallsCount;</div><div class="line">  Runnable idleCallback;</div><div class="line">  synchronized (this) &#123;</div><div class="line">    if (!calls.remove(call)) throw new AssertionError(&quot;Call wasn&apos;t in-flight!&quot;);</div><div class="line">    if (promoteCalls) promoteCalls();</div><div class="line">    runningCallsCount = runningCallsCount();</div><div class="line">    idleCallback = this.idleCallback;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) &#123;</div><div class="line">    idleCallback.run();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这里的promoteCalls就会从队列中取出下一个任务并执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private void promoteCalls() &#123;</div><div class="line">    if (runningAsyncCalls.size() &gt;= maxRequests) return; // Already running max capacity.</div><div class="line">    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.</div><div class="line"></div><div class="line">    for (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) &#123;</div><div class="line">      AsyncCall call = i.next();</div><div class="line"></div><div class="line">      if (runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">        i.remove();</div><div class="line">        runningAsyncCalls.add(call);</div><div class="line">        executorService().execute(call);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      if (runningAsyncCalls.size() &gt;= maxRequests) return; // Reached max capacity.</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/08/25/activity_display/" itemprop="url">
                   Activity Layout 显示
                 </a>
@@ -491,6 +376,121 @@
 <h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
 <h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
 <h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/22/OkHttp/" itemprop="url">
+                  OkHttp3
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T00:00:00+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="OKHttp3"><a href="#OKHttp3" class="headerlink" title="OKHttp3"></a>OKHttp3</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">private void download(String url) &#123;</div><div class="line">    OkHttpClient client = new OkHttpClient();</div><div class="line">    final Request request = new Request.Builder()</div><div class="line">            .url(url)</div><div class="line">            .build();</div><div class="line">    Call call = client.newCall(request);</div><div class="line">    call.enqueue(new Callback() &#123;</div><div class="line">        @Override</div><div class="line">        public void onFailure(Call call, IOException e) &#123;</div><div class="line">            Log.d(TAG, e.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">            Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());</div><div class="line">            mImageView.setImageBitmap(bitmap);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>OkHttpClient的构造方法里面调用了默认的建造者来对属性赋值.接着同样的使用建造者来构建了一个Request<br>看一下这个Request的Builder的构造方法.这里的默认连接方式是GET.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">    this.method = &quot;GET&quot;;</div><div class="line">    this.headers = new Headers.Builder();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面看一下client的newCall方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">   * Prepares the &#123;@code request&#125; to be executed at some point in the future.</div><div class="line">   */</div><div class="line">  @Override public Call newCall(Request request) &#123;</div><div class="line">    return new RealCall(this, request);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>没有做什么,就是创建了一个RealCall对象.</p>
+<p>看下call的enqueue方法,这里添加了一个Callback回调.看下Call的enqueue方法是由其子<br>类RealCall实现的.下面是RealCall的enqueue方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override public void enqueue(Callback responseCallback) &#123;</div><div class="line">    synchronized (this) &#123;</div><div class="line">      if (executed) throw new IllegalStateException(&quot;Already Executed&quot;);</div><div class="line">      executed = true;</div><div class="line">    &#125;</div><div class="line">    client.dispatcher().enqueue(new AsyncCall(responseCallback));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>这里通过再将RealCall封装成AsyncCall然后加入到线程池中.这里的AsyncCall是一个Runnable.方法实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">synchronized void enqueue(AsyncCall call) &#123;</div><div class="line">    if (runningAsyncCalls.size() &lt; maxRequests &amp;&amp; runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">      runningAsyncCalls.add(call);</div><div class="line">      executorService().execute(call);</div><div class="line">    &#125; else &#123;</div><div class="line">      readyAsyncCalls.add(call);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先判断正在进行的任务,如果没有到maxRequests(64),并且具有相同host的任务没有到<br>maxRequestsPerHost(5),则立即执行该任务,否则加入到等待的队列中.</p>
+<p>那么执行具体任务就应该在AsyncCall的run方法中,AsyncCall的run方法是由其父类NamedRunnable<br>实现了,最后会调用那个到AsyncCall的excute方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">@Override protected void execute() &#123;</div><div class="line">      boolean signalledCallback = false;</div><div class="line">      try &#123;</div><div class="line">        Response response = getResponseWithInterceptorChain();</div><div class="line">        if (retryAndFollowUpInterceptor.isCanceled()) &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onFailure(RealCall.this, new IOException(&quot;Canceled&quot;));</div><div class="line">        &#125; else &#123;</div><div class="line">          signalledCallback = true;</div><div class="line">          responseCallback.onResponse(RealCall.this, response);</div><div class="line">        &#125;</div><div class="line">      &#125; catch (IOException e) &#123;</div><div class="line">        if (signalledCallback) &#123;</div><div class="line">          // Do not signal the callback twice!</div><div class="line">          Platform.get().log(INFO, &quot;Callback failure for &quot; + toLoggableString(), e);</div><div class="line">        &#125; else &#123;</div><div class="line">          responseCallback.onFailure(RealCall.this, e);</div><div class="line">        &#125;</div><div class="line">      &#125; finally &#123;</div><div class="line">        client.dispatcher().finished(this);</div><div class="line">      &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>通过getResponseWithInterceptorChain();得到了我们想要的Response.如果任务取消了,<br>调用Callbak的onFailure, 否则回调onResponse.最后告诉dispatcher自己执行完了.然后<br>dispatcher就会拉取下一个任务.</p>
+<p>重头戏来了.接下来是整个OkHttp的精华部分.我们是怎么样获取到Response的?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">private Response getResponseWithInterceptorChain() throws IOException &#123;</div><div class="line">   // Build a full stack of interceptors.</div><div class="line">   List&lt;Interceptor&gt; interceptors = new ArrayList&lt;&gt;();</div><div class="line">   interceptors.addAll(client.interceptors());</div><div class="line">   interceptors.add(retryAndFollowUpInterceptor);</div><div class="line">   interceptors.add(new BridgeInterceptor(client.cookieJar()));</div><div class="line">   interceptors.add(new CacheInterceptor(client.internalCache()));</div><div class="line">   interceptors.add(new ConnectInterceptor(client));</div><div class="line">   if (!retryAndFollowUpInterceptor.isForWebSocket()) &#123;</div><div class="line">     interceptors.addAll(client.networkInterceptors());</div><div class="line">   &#125;</div><div class="line">   interceptors.add(new CallServerInterceptor(</div><div class="line">       retryAndFollowUpInterceptor.isForWebSocket()));</div><div class="line"></div><div class="line">   Interceptor.Chain chain = new RealInterceptorChain(</div><div class="line">       interceptors, null, null, null, 0, originalRequest);</div><div class="line">   return chain.proceed(originalRequest);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>在上面的方法中，加入了一堆的拦截器，按照一下顺序来拦截:</p>
+<ol>
+<li>RetryAndFollowUpInterceptor:创建连接池，路由表。如果Response code无法识别，进行重试。</li>
+<li>Bridgeinterceptor:构建http请求头部。进入下一个拦截器。</li>
+<li>CacheInterceptor:根据http请求消息查找缓存。如果没有，进入下一个拦截器。</li>
+<li>ConnectInterceptor:建立链接，进入下一个拦截器。</li>
+<li>CallServerInterceptor:构建http请求行以及http请求体，向服务器发送请求，并返回Response。</li>
+</ol>
+<p>当这个任务执行完后，在AsyncCall的finally中会通知client自己完成了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#125; finally &#123;</div><div class="line">  client.dispatcher().finished(this);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最终会调到Dispatcher的以下finish方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private &lt;T&gt; void finished(Deque&lt;T&gt; calls, T call, boolean promoteCalls) &#123;</div><div class="line">  int runningCallsCount;</div><div class="line">  Runnable idleCallback;</div><div class="line">  synchronized (this) &#123;</div><div class="line">    if (!calls.remove(call)) throw new AssertionError(&quot;Call wasn&apos;t in-flight!&quot;);</div><div class="line">    if (promoteCalls) promoteCalls();</div><div class="line">    runningCallsCount = runningCallsCount();</div><div class="line">    idleCallback = this.idleCallback;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) &#123;</div><div class="line">    idleCallback.run();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里的promoteCalls就会从队列中取出下一个任务并执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private void promoteCalls() &#123;</div><div class="line">    if (runningAsyncCalls.size() &gt;= maxRequests) return; // Already running max capacity.</div><div class="line">    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.</div><div class="line"></div><div class="line">    for (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) &#123;</div><div class="line">      AsyncCall call = i.next();</div><div class="line"></div><div class="line">      if (runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">        i.remove();</div><div class="line">        runningAsyncCalls.add(call);</div><div class="line">        executorService().execute(call);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      if (runningAsyncCalls.size() &gt;= maxRequests) return; // Reached max capacity.</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
 
           
         
