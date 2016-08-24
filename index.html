@@ -233,7 +233,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/24/OkHttp/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/25/OkHttp/" itemprop="url">
                   OkHttp3
                 </a>
               
@@ -247,8 +247,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T01:29:49+08:00" content="2016-08-24">
-              2016-08-24
+            <time itemprop="dateCreated" datetime="2016-08-25T01:25:18+08:00" content="2016-08-25">
+              2016-08-25
             </time>
           </span>
 
@@ -299,6 +299,100 @@
 <p>当这个任务执行完后，在AsyncCall的finally中会通知client自己完成了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#125; finally &#123;</div><div class="line">  client.dispatcher().finished(this);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>最终会调到Dispatcher的以下finish方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private &lt;T&gt; void finished(Deque&lt;T&gt; calls, T call, boolean promoteCalls) &#123;</div><div class="line">  int runningCallsCount;</div><div class="line">  Runnable idleCallback;</div><div class="line">  synchronized (this) &#123;</div><div class="line">    if (!calls.remove(call)) throw new AssertionError(&quot;Call wasn&apos;t in-flight!&quot;);</div><div class="line">    if (promoteCalls) promoteCalls();</div><div class="line">    runningCallsCount = runningCallsCount();</div><div class="line">    idleCallback = this.idleCallback;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  if (runningCallsCount == 0 &amp;&amp; idleCallback != null) &#123;</div><div class="line">    idleCallback.run();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这里的promoteCalls就会从队列中取出下一个任务并执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private void promoteCalls() &#123;</div><div class="line">    if (runningAsyncCalls.size() &gt;= maxRequests) return; // Already running max capacity.</div><div class="line">    if (readyAsyncCalls.isEmpty()) return; // No ready calls to promote.</div><div class="line"></div><div class="line">    for (Iterator&lt;AsyncCall&gt; i = readyAsyncCalls.iterator(); i.hasNext(); ) &#123;</div><div class="line">      AsyncCall call = i.next();</div><div class="line"></div><div class="line">      if (runningCallsForHost(call) &lt; maxRequestsPerHost) &#123;</div><div class="line">        i.remove();</div><div class="line">        runningAsyncCalls.add(call);</div><div class="line">        executorService().execute(call);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      if (runningAsyncCalls.size() &gt;= maxRequests) return; // Reached max capacity.</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/25/activity_display/" itemprop="url">
+                  Activity Layout 显示
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-25T00:00:00+08:00" content="2016-08-25">
+              2016-08-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="./activity_display.png" alt="activity_display"></p>
 
           
         
@@ -590,7 +684,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
