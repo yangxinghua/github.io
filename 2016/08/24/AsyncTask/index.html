@@ -1,0 +1,588 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="AsyncTask使用123456789101112131415161718192021222324252627282930313233343536373839404142434445private TextView mTextView;@Overrideprotected void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AsyncTask">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/AsyncTask/index.html">
+<meta property="og:site_name" content="纸上得来">
+<meta property="og:description" content="AsyncTask使用123456789101112131415161718192021222324252627282930313233343536373839404142434445private TextView mTextView;@Overrideprotected void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCre">
+<meta property="og:updated_time" content="2016-08-29T16:12:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AsyncTask">
+<meta name="twitter:description" content="AsyncTask使用123456789101112131415161718192021222324252627282930313233343536373839404142434445private TextView mTextView;@Overrideprotected void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCre">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> AsyncTask | 纸上得来 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">纸上得来</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AsyncTask
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">private TextView mTextView;</div><div class="line"></div><div class="line">@Override</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">    mTextView = (TextView) findViewById(R.id.text_view);</div><div class="line">    new MyAsyncTask().execute(&quot;http://www.baidu.com&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">class MyAsyncTask extends AsyncTask&lt;String, Void, String&gt; &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected String doInBackground(String... params) &#123;</div><div class="line">        try &#123;</div><div class="line">            URL url = new URL(params[0]);</div><div class="line">            HttpURLConnection connection = (HttpURLConnection) url.openConnection();</div><div class="line">            connection.setDoInput(true);</div><div class="line">            InputStream is = connection.getInputStream();</div><div class="line">            InputStreamReader reader = new InputStreamReader(is);</div><div class="line">            BufferedReader bufferedReader = new BufferedReader(reader);</div><div class="line">            String s;</div><div class="line">            StringBuffer sb = new StringBuffer();</div><div class="line">            while ((s = bufferedReader.readLine()) != null) &#123;</div><div class="line">                sb.append(s);</div><div class="line">            &#125;</div><div class="line">            return sb.toString();</div><div class="line"></div><div class="line">        &#125; catch (MalformedURLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return null;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onPostExecute(String s) &#123;</div><div class="line">        mTextView.setText(s);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>doInBackground。运行在线程中，我们可以做耗时操作，比如上面的网络请求。</li>
+<li>onPostExecute. 运行在主线程。当这个方法被调用时，就表明doInBackground方法执行完了，调用了这个方法，并传入结果。整个Task就完成了。</li>
+</ul>
+<p>execute方法就只有一句，调用了executeOnExecutor方法。所以直接来看executeOnExecutor：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public final AsyncTask&lt;Params, Progress, Result&gt; executeOnExecutor(Executor exec, Params... params) &#123;</div><div class="line">        if (mStatus != Status.PENDING) &#123;</div><div class="line">            switch (mStatus) &#123;</div><div class="line">                case RUNNING:</div><div class="line">                    throw new IllegalStateException(&quot;Cannot execute task:&quot;</div><div class="line">                            + &quot; the task is already running.&quot;);</div><div class="line">                case FINISHED:</div><div class="line">                    throw new IllegalStateException(&quot;Cannot execute task:&quot;</div><div class="line">                            + &quot; the task has already been executed &quot;</div><div class="line">                            + &quot;(a task can be executed only once)&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mStatus = Status.RUNNING;</div><div class="line"></div><div class="line">        onPreExecute();</div><div class="line"></div><div class="line">        mWorker.mParams = params;</div><div class="line">        exec.execute(mFuture);</div><div class="line"></div><div class="line">        return this;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>首先判断当前的状态，如果是已经开始或者已经结束，抛出异常。<br>接着将当前的状态设置为正在执行。调用onPreExecute，所以我们可以复写这个方法来在任务开始之前做一些初始化。最后，线程池就开始执行mFuture这个任务。mFuture是在AsyncTask的构造方法中初始化的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Creates a new asynchronous task. This constructor must be invoked on the UI thread.</div><div class="line"> */</div><div class="line">public AsyncTask() &#123;</div><div class="line">    mWorker = new WorkerRunnable&lt;Params, Result&gt;() &#123;</div><div class="line">        public Result call() throws Exception &#123;</div><div class="line">            mTaskInvoked.set(true);</div><div class="line"></div><div class="line">            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</div><div class="line">            //noinspection unchecked</div><div class="line">            Result result = doInBackground(mParams);</div><div class="line">            Binder.flushPendingCommands();</div><div class="line">            return postResult(result);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    mFuture = new FutureTask&lt;Result&gt;(mWorker) &#123;</div><div class="line">        @Override</div><div class="line">        protected void done() &#123;</div><div class="line">            try &#123;</div><div class="line">                postResultIfNotInvoked(get());</div><div class="line">            &#125; catch (InterruptedException e) &#123;</div><div class="line">                android.util.Log.w(LOG_TAG, e);</div><div class="line">            &#125; catch (ExecutionException e) &#123;</div><div class="line">                throw new RuntimeException(&quot;An error occurred while executing doInBackground()&quot;,</div><div class="line">                        e.getCause());</div><div class="line">            &#125; catch (CancellationException e) &#123;</div><div class="line">                postResultIfNotInvoked(null);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面我们可以看到，mFuture是通过mWorker来构造的。而mWorker是一个Callable。那么执行的就是mWorker的call方法。上面的call方法中，我们可以看到doInBackground方法被调用了。当结果返回后，调用了postResult方法将结果投入到主线程中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private Result postResult(Result result) &#123;</div><div class="line">       @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">       Message message = getHandler().obtainMessage(MESSAGE_POST_RESULT,</div><div class="line">               new AsyncTaskResult&lt;Result&gt;(this, result));</div><div class="line">       message.sendToTarget();</div><div class="line">       return result;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>这里就是Handler的知识了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public void handleMessage(Message msg) &#123;</div><div class="line">      AsyncTaskResult&lt;?&gt; result = (AsyncTaskResult&lt;?&gt;) msg.obj;</div><div class="line">      switch (msg.what) &#123;</div><div class="line">          case MESSAGE_POST_RESULT:</div><div class="line">              // There is only one result</div><div class="line">              result.mTask.finish(result.mData[0]);</div><div class="line">              break;</div><div class="line"></div><div class="line"></div><div class="line">          //省略代码</div><div class="line">          ....</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>上面的mTask就是当前的AsyncTask对象。所以，猜测，finish方法中肯定会调用onPostExecute。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private void finish(Result result) &#123;</div><div class="line">     if (isCancelled()) &#123;</div><div class="line">         onCancelled(result);</div><div class="line">     &#125; else &#123;</div><div class="line">         onPostExecute(result);</div><div class="line">     &#125;</div><div class="line">     mStatus = Status.FINISHED;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>到这里，整个任务就完成了。</p>
+<p>注意：内部类默认会持有外部类， 使用AsyncTask，小心内存泄漏。一个例子：我们在Activity中定义了一个继承至AsyncTask的MyAsyncTask来执行耗时操作的任务，比如从网络上下载数据。当任务还没有执行完，Activity被销毁了，因为MyAsyncTask持有了Activity，使得Activity不能被释放，从而引起内存泄漏。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/24/LaunchMode/" rel="next" title="LaunchMode">
+                <i class="fa fa-chevron-left"></i> LaunchMode
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/25/activity_display/" rel="prev" title="Activity Layout 显示">
+                Activity Layout 显示 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+<% if (!index && post.comments && config.duoshuo_shortname){ %>
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="<%= post.layout %>-<%= post.slug %>" data-title="<%= post.title %>" data-url="<%= page.permalink %>"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'<%= config.duoshuo_shortname %>'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  <% } %>
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/nev.jpg"
+               alt="Yang" />
+          <p class="site-author-name" itemprop="name">Yang</p>
+          <p class="site-description motion-element" itemprop="description">一个小码农</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AsyncTask"><span class="nav-number">1.</span> <span class="nav-text">AsyncTask</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.1.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

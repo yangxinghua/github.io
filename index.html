@@ -327,6 +327,111 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/24/AsyncTask/" itemprop="url">
+                  AsyncTask
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">private TextView mTextView;</div><div class="line"></div><div class="line">@Override</div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">    super.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">    mTextView = (TextView) findViewById(R.id.text_view);</div><div class="line">    new MyAsyncTask().execute(&quot;http://www.baidu.com&quot;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">class MyAsyncTask extends AsyncTask&lt;String, Void, String&gt; &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected String doInBackground(String... params) &#123;</div><div class="line">        try &#123;</div><div class="line">            URL url = new URL(params[0]);</div><div class="line">            HttpURLConnection connection = (HttpURLConnection) url.openConnection();</div><div class="line">            connection.setDoInput(true);</div><div class="line">            InputStream is = connection.getInputStream();</div><div class="line">            InputStreamReader reader = new InputStreamReader(is);</div><div class="line">            BufferedReader bufferedReader = new BufferedReader(reader);</div><div class="line">            String s;</div><div class="line">            StringBuffer sb = new StringBuffer();</div><div class="line">            while ((s = bufferedReader.readLine()) != null) &#123;</div><div class="line">                sb.append(s);</div><div class="line">            &#125;</div><div class="line">            return sb.toString();</div><div class="line"></div><div class="line">        &#125; catch (MalformedURLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return null;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onPostExecute(String s) &#123;</div><div class="line">        mTextView.setText(s);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>doInBackground。运行在线程中，我们可以做耗时操作，比如上面的网络请求。</li>
+<li>onPostExecute. 运行在主线程。当这个方法被调用时，就表明doInBackground方法执行完了，调用了这个方法，并传入结果。整个Task就完成了。</li>
+</ul>
+<p>execute方法就只有一句，调用了executeOnExecutor方法。所以直接来看executeOnExecutor：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public final AsyncTask&lt;Params, Progress, Result&gt; executeOnExecutor(Executor exec, Params... params) &#123;</div><div class="line">        if (mStatus != Status.PENDING) &#123;</div><div class="line">            switch (mStatus) &#123;</div><div class="line">                case RUNNING:</div><div class="line">                    throw new IllegalStateException(&quot;Cannot execute task:&quot;</div><div class="line">                            + &quot; the task is already running.&quot;);</div><div class="line">                case FINISHED:</div><div class="line">                    throw new IllegalStateException(&quot;Cannot execute task:&quot;</div><div class="line">                            + &quot; the task has already been executed &quot;</div><div class="line">                            + &quot;(a task can be executed only once)&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        mStatus = Status.RUNNING;</div><div class="line"></div><div class="line">        onPreExecute();</div><div class="line"></div><div class="line">        mWorker.mParams = params;</div><div class="line">        exec.execute(mFuture);</div><div class="line"></div><div class="line">        return this;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>首先判断当前的状态，如果是已经开始或者已经结束，抛出异常。<br>接着将当前的状态设置为正在执行。调用onPreExecute，所以我们可以复写这个方法来在任务开始之前做一些初始化。最后，线程池就开始执行mFuture这个任务。mFuture是在AsyncTask的构造方法中初始化的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Creates a new asynchronous task. This constructor must be invoked on the UI thread.</div><div class="line"> */</div><div class="line">public AsyncTask() &#123;</div><div class="line">    mWorker = new WorkerRunnable&lt;Params, Result&gt;() &#123;</div><div class="line">        public Result call() throws Exception &#123;</div><div class="line">            mTaskInvoked.set(true);</div><div class="line"></div><div class="line">            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</div><div class="line">            //noinspection unchecked</div><div class="line">            Result result = doInBackground(mParams);</div><div class="line">            Binder.flushPendingCommands();</div><div class="line">            return postResult(result);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    mFuture = new FutureTask&lt;Result&gt;(mWorker) &#123;</div><div class="line">        @Override</div><div class="line">        protected void done() &#123;</div><div class="line">            try &#123;</div><div class="line">                postResultIfNotInvoked(get());</div><div class="line">            &#125; catch (InterruptedException e) &#123;</div><div class="line">                android.util.Log.w(LOG_TAG, e);</div><div class="line">            &#125; catch (ExecutionException e) &#123;</div><div class="line">                throw new RuntimeException(&quot;An error occurred while executing doInBackground()&quot;,</div><div class="line">                        e.getCause());</div><div class="line">            &#125; catch (CancellationException e) &#123;</div><div class="line">                postResultIfNotInvoked(null);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面我们可以看到，mFuture是通过mWorker来构造的。而mWorker是一个Callable。那么执行的就是mWorker的call方法。上面的call方法中，我们可以看到doInBackground方法被调用了。当结果返回后，调用了postResult方法将结果投入到主线程中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private Result postResult(Result result) &#123;</div><div class="line">       @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">       Message message = getHandler().obtainMessage(MESSAGE_POST_RESULT,</div><div class="line">               new AsyncTaskResult&lt;Result&gt;(this, result));</div><div class="line">       message.sendToTarget();</div><div class="line">       return result;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>这里就是Handler的知识了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public void handleMessage(Message msg) &#123;</div><div class="line">      AsyncTaskResult&lt;?&gt; result = (AsyncTaskResult&lt;?&gt;) msg.obj;</div><div class="line">      switch (msg.what) &#123;</div><div class="line">          case MESSAGE_POST_RESULT:</div><div class="line">              // There is only one result</div><div class="line">              result.mTask.finish(result.mData[0]);</div><div class="line">              break;</div><div class="line"></div><div class="line"></div><div class="line">          //省略代码</div><div class="line">          ....</div><div class="line">      &#125;</div></pre></td></tr></table></figure></p>
+<p>上面的mTask就是当前的AsyncTask对象。所以，猜测，finish方法中肯定会调用onPostExecute。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private void finish(Result result) &#123;</div><div class="line">     if (isCancelled()) &#123;</div><div class="line">         onCancelled(result);</div><div class="line">     &#125; else &#123;</div><div class="line">         onPostExecute(result);</div><div class="line">     &#125;</div><div class="line">     mStatus = Status.FINISHED;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>到这里，整个任务就完成了。</p>
+<p>注意：内部类默认会持有外部类， 使用AsyncTask，小心内存泄漏。一个例子：我们在Activity中定义了一个继承至AsyncTask的MyAsyncTask来执行耗时操作的任务，比如从网络上下载数据。当任务还没有执行完，Activity被销毁了，因为MyAsyncTask持有了Activity，使得Activity不能被释放，从而引起内存泄漏。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
                   LaunchMode
                 </a>
@@ -684,7 +789,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
