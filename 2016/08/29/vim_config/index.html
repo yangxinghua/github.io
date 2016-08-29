@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android," />
+  <meta name="keywords" content="Linux," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940set encoding=utf-8set nocompatible &amp;quot; 关闭 vi 兼容模式syntax on &amp;quot; 自动语法高亮set number &amp;quot; 显示行号set cursorline &amp;quot; 突出显示当前行set">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LaunchMode">
-<meta property="og:url" content="http://yoursite.com/2016/08/24/LaunchMode/index.html">
+<meta property="og:title" content="vim配置">
+<meta property="og:url" content="http://yoursite.com/2016/08/29/vim_config/index.html">
 <meta property="og:site_name" content="纸上得来">
-<meta property="og:description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
-<meta property="og:updated_time" content="2016-08-23T17:29:34.000Z">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940set encoding=utf-8set nocompatible &amp;quot; 关闭 vi 兼容模式syntax on &amp;quot; 自动语法高亮set number &amp;quot; 显示行号set cursorline &amp;quot; 突出显示当前行set">
+<meta property="og:updated_time" content="2016-08-29T16:18:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LaunchMode">
-<meta name="twitter:description" content="Activity LaunchMode在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.Android developers对launchMode的解释是:An instruction on how the activity should be launched.在解析Activity的启动方式的时候,有必要了解Task">
+<meta name="twitter:title" content="vim配置">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940set encoding=utf-8set nocompatible &amp;quot; 关闭 vi 兼容模式syntax on &amp;quot; 自动语法高亮set number &amp;quot; 显示行号set cursorline &amp;quot; 突出显示当前行set">
 
 
 
@@ -111,7 +111,7 @@
   };
 </script>
 
-  <title> LaunchMode | 纸上得来 </title>
+  <title> vim配置 | 纸上得来 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -231,7 +231,7 @@
             
             
               
-                LaunchMode
+                vim配置
               
             
           </h1>
@@ -243,8 +243,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
-              2016-08-24
+            <time itemprop="dateCreated" datetime="2016-08-29T00:00:00+08:00" content="2016-08-29">
+              2016-08-29
             </time>
           </span>
 
@@ -271,11 +271,7 @@
       
 
       
-        <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
-<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
-<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
-<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
-<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">set encoding=utf-8</div><div class="line">set nocompatible &quot; 关闭 vi 兼容模式</div><div class="line">syntax on &quot; 自动语法高亮</div><div class="line">set number &quot; 显示行号</div><div class="line">set cursorline &quot; 突出显示当前行</div><div class="line">set laststatus=2</div><div class="line">set ruler &quot; 打开状态栏标尺</div><div class="line">set shiftwidth=4 &quot; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</div><div class="line">set softtabstop=4 &quot; 使得按退格键时可以一次删掉 4 个空格</div><div class="line">set tabstop=4 &quot; 设定 tab 长度为 4</div><div class="line">set ignorecase smartcase &quot; 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感</div><div class="line">set incsearch &quot; 输入搜索内容时就显示搜索结果</div><div class="line">set hlsearch &quot; 搜索时高亮显示被找到的文本</div><div class="line">set showmatch &quot; 插入括号时，短暂地跳转到匹配的对应括号</div><div class="line">set matchtime=2 &quot; 短暂跳转到匹配括号的时间</div><div class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125;   &quot;状态行显示的内容</div><div class="line">nnoremap &lt;F2&gt; :set nonumber!&lt;CR&gt;:set foldcolumn=0&lt;CR&gt;</div><div class="line">map &lt;C-F12&gt; :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .&lt;CR&gt;</div><div class="line">set background=dark</div><div class="line">set laststatus=2 &quot;显示状态栏(默认值为1, 无法显示状态栏)</div><div class="line">set statusline=</div><div class="line">set statusline+=%2*%-3.3n%0*\ &quot; buffer number</div><div class="line">set statusline+=%f\ &quot; file name</div><div class="line">set statusline+=%h%1*%m%r%w%0* &quot; flag</div><div class="line">set statusline+=[</div><div class="line">if v:version &gt;= 600</div><div class="line">    set statusline+=%&#123;strlen(&amp;ft)?&amp;ft:&apos;none&apos;&#125;, &quot; filetype</div><div class="line">    set statusline+=%&#123;&amp;fileencoding&#125;, &quot; encoding</div><div class="line">endif</div><div class="line">set statusline+=%&#123;&amp;fileformat&#125;] &quot; file format</div><div class="line">set statusline+=%= &quot; right align</div><div class="line">&quot;set statusline+=%2*0x%-8B\ &quot; current char</div><div class="line">set statusline+=0x%-8B\ &quot; current char</div><div class="line">set statusline+=%-14.(%l,%c%V%)\ %&lt;%P &quot; offset</div><div class="line">if filereadable(expand(&quot;$VIM/vimfiles/plugin/vimbuddy.vim&quot;))</div><div class="line">    set statusline+=\ %&#123;VimBuddy()&#125; &quot; vim buddy</div><div class="line">endif</div><div class="line">&quot;状态行颜色</div><div class="line">&quot;highlight StatusLine guifg=SlateBlue guibg=Yellow</div><div class="line">&quot;highlight StatusLineNC guifg=Gray guibg=White</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -297,7 +293,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag">#Android</a>
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
           
         </div>
       
@@ -306,17 +302,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/22/OkHttp/" rel="next" title="OkHttp3">
-                <i class="fa fa-chevron-left"></i> OkHttp3
+              <a href="/2016/08/25/activity_display/" rel="next" title="Activity Layout 显示">
+                <i class="fa fa-chevron-left"></i> Activity Layout 显示
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/24/AsyncTask/" rel="prev" title="AsyncTask">
-                AsyncTask <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -442,7 +434,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity-LaunchMode"><span class="nav-number">1.</span> <span class="nav-text">Activity LaunchMode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#standard"><span class="nav-number">1.1.</span> <span class="nav-text">standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleTop"><span class="nav-number">1.2.</span> <span class="nav-text">singleTop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleTask"><span class="nav-number">1.3.</span> <span class="nav-text">singleTask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#singleInstance"><span class="nav-number">1.4.</span> <span class="nav-text">singleInstance</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>

@@ -233,6 +233,100 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/29/vim_config/" itemprop="url">
+                  vim配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-29T00:00:00+08:00" content="2016-08-29">
+              2016-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">set encoding=utf-8</div><div class="line">set nocompatible &quot; 关闭 vi 兼容模式</div><div class="line">syntax on &quot; 自动语法高亮</div><div class="line">set number &quot; 显示行号</div><div class="line">set cursorline &quot; 突出显示当前行</div><div class="line">set laststatus=2</div><div class="line">set ruler &quot; 打开状态栏标尺</div><div class="line">set shiftwidth=4 &quot; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</div><div class="line">set softtabstop=4 &quot; 使得按退格键时可以一次删掉 4 个空格</div><div class="line">set tabstop=4 &quot; 设定 tab 长度为 4</div><div class="line">set ignorecase smartcase &quot; 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感</div><div class="line">set incsearch &quot; 输入搜索内容时就显示搜索结果</div><div class="line">set hlsearch &quot; 搜索时高亮显示被找到的文本</div><div class="line">set showmatch &quot; 插入括号时，短暂地跳转到匹配的对应括号</div><div class="line">set matchtime=2 &quot; 短暂跳转到匹配括号的时间</div><div class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\&quot;%d/%m/%y\ -\ %H:%M\&quot;)&#125;   &quot;状态行显示的内容</div><div class="line">nnoremap &lt;F2&gt; :set nonumber!&lt;CR&gt;:set foldcolumn=0&lt;CR&gt;</div><div class="line">map &lt;C-F12&gt; :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .&lt;CR&gt;</div><div class="line">set background=dark</div><div class="line">set laststatus=2 &quot;显示状态栏(默认值为1, 无法显示状态栏)</div><div class="line">set statusline=</div><div class="line">set statusline+=%2*%-3.3n%0*\ &quot; buffer number</div><div class="line">set statusline+=%f\ &quot; file name</div><div class="line">set statusline+=%h%1*%m%r%w%0* &quot; flag</div><div class="line">set statusline+=[</div><div class="line">if v:version &gt;= 600</div><div class="line">    set statusline+=%&#123;strlen(&amp;ft)?&amp;ft:&apos;none&apos;&#125;, &quot; filetype</div><div class="line">    set statusline+=%&#123;&amp;fileencoding&#125;, &quot; encoding</div><div class="line">endif</div><div class="line">set statusline+=%&#123;&amp;fileformat&#125;] &quot; file format</div><div class="line">set statusline+=%= &quot; right align</div><div class="line">&quot;set statusline+=%2*0x%-8B\ &quot; current char</div><div class="line">set statusline+=0x%-8B\ &quot; current char</div><div class="line">set statusline+=%-14.(%l,%c%V%)\ %&lt;%P &quot; offset</div><div class="line">if filereadable(expand(&quot;$VIM/vimfiles/plugin/vimbuddy.vim&quot;))</div><div class="line">    set statusline+=\ %&#123;VimBuddy()&#125; &quot; vim buddy</div><div class="line">endif</div><div class="line">&quot;状态行颜色</div><div class="line">&quot;highlight StatusLine guifg=SlateBlue guibg=Yellow</div><div class="line">&quot;highlight StatusLineNC guifg=Gray guibg=White</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/25/activity_display/" itemprop="url">
                   Activity Layout 显示
                 </a>
@@ -789,7 +883,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -799,7 +893,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
