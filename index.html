@@ -233,6 +233,103 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/06/HandlerThread/" itemprop="url">
+                  HandlerThread使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-06T00:00:00+08:00" content="2016-09-06">
+              2016-09-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line">    private static final String PIC_URL = &quot;http://img5.imgtn.bdimg.com/it/u=3586233367,3171193232&amp;fm=11&amp;gp=0.jpg&quot;;</div><div class="line"></div><div class="line">    private Handler mThreadHandler;</div><div class="line"></div><div class="line">    private ImageView mImageView;</div><div class="line"></div><div class="line">    private Button mBtnDownload;</div><div class="line"></div><div class="line"></div><div class="line">    final Handler mHandler = new Handler() &#123;</div><div class="line">        //运行在主线程</div><div class="line">        @Override</div><div class="line">        public void handleMessage(Message msg) &#123;</div><div class="line">            super.handleMessage(msg);</div><div class="line">            Bitmap bitmap = (Bitmap)msg.obj;</div><div class="line">            if(bitmap != null) &#123;</div><div class="line">              mImageView.setImageBitmap(bitmap);</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        mImageView = (ImageView) findViewById(R.id.image);</div><div class="line">        mBtnDownload = (Button) findViewById(R.id.btn_download);</div><div class="line">        mBtnDownload.setOnClickListener(new View.OnClickListener() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View v) &#123;</div><div class="line">                mThreadHandler.sendEmptyMessage(0);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        HandlerThread thread = new HandlerThread(&quot;demo&quot;);</div><div class="line">        thread.start();</div><div class="line"></div><div class="line">        mThreadHandler = new Handler(thread.getLooper()) &#123;</div><div class="line"></div><div class="line">            //运行在HandlerThread构建出来的线程中.</div><div class="line">            @Override</div><div class="line">            public void handleMessage(Message msg) &#123;</div><div class="line">                super.handleMessage(msg);</div><div class="line">                Bitmap bitmap = donwloadBitmap();</div><div class="line">                if (bitmap != null) &#123;</div><div class="line">                    Message uiMsg = Message.obtain();</div><div class="line">                    msg.what = 1;</div><div class="line">                    uiMsg.obj = bitmap;</div><div class="line">                    mHandler.sendMessage(uiMsg);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private Bitmap donwloadBitmap() &#123;</div><div class="line">        try &#123;</div><div class="line">            URL url = new URL(PIC_URL);</div><div class="line">            HttpURLConnection connection = (HttpURLConnection) url.openConnection();</div><div class="line">            connection.connect();</div><div class="line">            InputStream is = connection.getInputStream();</div><div class="line">            Bitmap bitmap = BitmapFactory.decodeStream(is);</div><div class="line">            return bitmap;</div><div class="line"></div><div class="line">        &#125; catch (MalformedURLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return null;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>因为threadHandler是使用HandlerThread的Looper来构造的,该Looper的loop方法是运行在HandlerThread创建的线程中.从消息队列中取出消息是运行在该线程中,自然的,threadHandler的handleMessage方法也是运行在该线程中.</p>
+<p>而mHandler是在主线程中创建的,由于是一个无参的构造方法,默认获取的是当前线程的Looper.所以mHandler的handleMessage是运行在主线程中.</p>
+<p>顺便说一下,IntentService内部实现也是HandlerThread.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/29/vim_config/" itemprop="url">
                   vim配置
                 </a>
@@ -421,6 +518,104 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
+                  LaunchMode
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
+<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
+<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
+<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
+<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/24/AsyncTask/" itemprop="url">
                   AsyncTask
                 </a>
@@ -477,104 +672,6 @@
 <p>上面的mTask就是当前的AsyncTask对象。所以，猜测，finish方法中肯定会调用onPostExecute。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private void finish(Result result) &#123;</div><div class="line">     if (isCancelled()) &#123;</div><div class="line">         onCancelled(result);</div><div class="line">     &#125; else &#123;</div><div class="line">         onPostExecute(result);</div><div class="line">     &#125;</div><div class="line">     mStatus = Status.FINISHED;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>到这里，整个任务就完成了。</p>
 <p>注意：内部类默认会持有外部类， 使用AsyncTask，小心内存泄漏。一个例子：我们在Activity中定义了一个继承至AsyncTask的MyAsyncTask来执行耗时操作的任务，比如从网络上下载数据。当任务还没有执行完，Activity被销毁了，因为MyAsyncTask持有了Activity，使得Activity不能被释放，从而引起内存泄漏。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
-                  LaunchMode
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
-<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
-<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
-<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
-<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
 
           
         
@@ -883,7 +980,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
