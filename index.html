@@ -233,6 +233,116 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/08/HashMap/" itemprop="url">
+                  HashMap
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-08T00:00:00+08:00" content="2016-09-08">
+              2016-09-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h1><p>继承AbstractMap, 实现了Cloneable,Serializable接口, 所以是可以被克隆以及序列化的.<br>K,V都允许为null.</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>一般而言使用是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map&lt;K, V&gt; map = new HashMap();</div><div class="line">map.put(k, v);</div></pre></td></tr></table></figure></p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><ul>
+<li>public HashMap() 无参构造方法,初始数组长度为2.</li>
+<li>public HashMap(int capacity)  指定数组长度,如果不是2的n次方,增大到离该数最近的一个2的n次方的数.</li>
+<li>public HashMap(int capacity, float loadFactor) 与上一个一样,并且在HashMap忽略了这个负载因子,与上一个构造方法无异.</li>
+</ul>
+<p>这里只看无参的构造方法.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public HashMap() &#123;</div><div class="line">    table = (HashMapEntry&lt;K, V&gt;[]) EMPTY_TABLE;</div><div class="line">    threshold = -1; // Forces first put invocation to replace EMPTY_TABLE</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>EMPTY_TABLE是一个长度为2的空数组,同时,将threshold赋值为-1,这个threshold后面会讲到.</p>
+<h3 id="put"><a href="#put" class="headerlink" title="put"></a>put</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">    if (key == null) &#123;</div><div class="line">        return putValueForNullKey(value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    int hash = Collections.secondaryHash(key);</div><div class="line">    HashMapEntry&lt;K, V&gt;[] tab = table;</div><div class="line">    int index = hash &amp; (tab.length - 1);</div><div class="line">    for (HashMapEntry&lt;K, V&gt; e = tab[index]; e != null; e = e.next) &#123;</div><div class="line">        if (e.hash == hash &amp;&amp; key.equals(e.key)) &#123;</div><div class="line">            preModify(e);</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // No entry for (non-null) key is present; create one</div><div class="line">    modCount++;</div><div class="line">    if (size++ &gt; threshold) &#123;</div><div class="line">        tab = doubleCapacity();</div><div class="line">        index = hash &amp; (tab.length - 1);</div><div class="line">    &#125;</div><div class="line">    addNewEntry(key, value, hash, index);</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当KEY为null的时候,处理比较简单.不去看了.下来是对获取key的hash值,至于为什么是调用secondaryHash方法来求hash值,其目的在于下面这一句 <code>int index = hash &amp; (tab.length - 1);</code> 这个hash跟数组的长度减1(数组长度为2n -1)进行与运算时,能尽可能的产生不同的index, 并且这个index是小于数组长度的.这样就能最大程度的使元素能排布数组当中,在查找时,较少的在链表中查找.接着在数组与链表中查找是否有hash以及key相同的元素.有则替换value值.没有则把元素添加到数组的index位置.链表是怎么回事?继续看addNewEntry(key, value, hash, index)方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">void addNewEntry(K key, V value, int hash, int index) &#123;</div><div class="line">        table[index] = new HashMapEntry&lt;K, V&gt;(key, value, hash, table[index]);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>将要插入的元素放到数组的index位置,然后当前元素指向上一个插入index位置的元素.链表,就是这样来的.最先插入这个位置的元素在链表尾部,最后插入的在链表头部.</p>
+<h3 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if (size++ &gt; threshold) &#123;</div><div class="line">    tab = doubleCapacity();</div><div class="line">    index = hash &amp; (tab.length - 1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当HashMap的size加上要添加的元素之后大于threshold,进行扩容.那这个threshold是什么?看makeTable方法就知道了.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">private HashMapEntry&lt;K, V&gt;[] makeTable(int newCapacity) &#123;</div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;) HashMapEntry&lt;K, V&gt;[] newTable</div><div class="line">            = (HashMapEntry&lt;K, V&gt;[]) new HashMapEntry[newCapacity];</div><div class="line">    table = newTable;</div><div class="line">    threshold = (newCapacity &gt;&gt; 1) + (newCapacity &gt;&gt; 2); // 3/4 capacity</div><div class="line">    return newTable;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>原来是数组的长度的3/4,也就是说,当要在添加一个元素之后存储的元素达到了数组的3/4,则进行扩容到原来数组的两倍.</p>
+<h3 id="get"><a href="#get" class="headerlink" title="get"></a>get</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">    if (key == null) &#123;</div><div class="line">        HashMapEntry&lt;K, V&gt; e = entryForNullKey;</div><div class="line">        return e == null ? null : e.value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    int hash = Collections.secondaryHash(key);</div><div class="line">    HashMapEntry&lt;K, V&gt;[] tab = table;</div><div class="line">    for (HashMapEntry&lt;K, V&gt; e = tab[hash &amp; (tab.length - 1)];</div><div class="line">            e != null; e = e.next) &#123;</div><div class="line">        K eKey = e.key;</div><div class="line">        if (eKey == key || (e.hash == hash &amp;&amp; key.equals(eKey))) &#123;</div><div class="line">            return e.value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>get方法就比较简单了.计算出根据hash计算出index,在数组的index位置遍历链表.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/07/Volley/" itemprop="url">
                   Volley
                 </a>
@@ -633,104 +743,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
-                  LaunchMode
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
-<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
-<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
-<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
-<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/08/24/AsyncTask/" itemprop="url">
                   AsyncTask
                 </a>
@@ -787,6 +799,104 @@
 <p>上面的mTask就是当前的AsyncTask对象。所以，猜测，finish方法中肯定会调用onPostExecute。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private void finish(Result result) &#123;</div><div class="line">     if (isCancelled()) &#123;</div><div class="line">         onCancelled(result);</div><div class="line">     &#125; else &#123;</div><div class="line">         onPostExecute(result);</div><div class="line">     &#125;</div><div class="line">     mStatus = Status.FINISHED;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>到这里，整个任务就完成了。</p>
 <p>注意：内部类默认会持有外部类， 使用AsyncTask，小心内存泄漏。一个例子：我们在Activity中定义了一个继承至AsyncTask的MyAsyncTask来执行耗时操作的任务，比如从网络上下载数据。当任务还没有执行完，Activity被销毁了，因为MyAsyncTask持有了Activity，使得Activity不能被释放，从而引起内存泄漏。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/24/LaunchMode/" itemprop="url">
+                  LaunchMode
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T00:00:00+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
+<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
+<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
+<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
+<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
 
           
         
@@ -1095,7 +1205,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1105,7 +1215,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
