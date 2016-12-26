@@ -262,6 +262,51 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Java_GC" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/26/Java_GC/" class="article-date">
+      <time datetime="2016-12-26T07:50:08.513Z" itemprop="datePublished">2016-12-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><p>并发是Java开发中相当中重要的一个问题。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Activity_setContentView" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -666,6 +711,70 @@
 
 
   
+    <article id="post-LaunchMode" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/24/LaunchMode/" class="article-date">
+      <time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/24/LaunchMode/">LaunchMode</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
+<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
+<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
+<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
+<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-AsyncTask" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -707,70 +816,6 @@
 <p>上面的mTask就是当前的AsyncTask对象。所以，猜测，finish方法中肯定会调用onPostExecute。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">private void finish(Result result) &#123;</div><div class="line">     if (isCancelled()) &#123;</div><div class="line">         onCancelled(result);</div><div class="line">     &#125; else &#123;</div><div class="line">         onPostExecute(result);</div><div class="line">     &#125;</div><div class="line">     mStatus = Status.FINISHED;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 <p>到这里，整个任务就完成了。</p>
 <p>注意：内部类默认会持有外部类， 使用AsyncTask，小心内存泄漏。一个例子：我们在Activity中定义了一个继承至AsyncTask的MyAsyncTask来执行耗时操作的任务，比如从网络上下载数据。当任务还没有执行完，Activity被销毁了，因为MyAsyncTask持有了Activity，使得Activity不能被释放，从而引起内存泄漏。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-LaunchMode" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/24/LaunchMode/" class="article-date">
-      <time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/24/LaunchMode/">LaunchMode</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Activity-LaunchMode"><a href="#Activity-LaunchMode" class="headerlink" title="Activity LaunchMode"></a>Activity LaunchMode</h1><p>在AndroidManifest的Activity配置中有一个属性是launcheMode,就是配置Activity的启动方式.<br>Android developers对launchMode的解释是:An instruction on how the activity should be launched.<br>在解析Activity的启动方式的时候,有必要了解Task一下的概念.官方解释:A task is a collection of activities that users interact with when performing a certain job. 简单来说Task就是里面存放了一个或多个Acitivty.</p>
-<h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>默认的启动方式.在task中可以存放多个实例.比如说启动了两个相同的Actiivty,在Task中存在两个该<br>Activity实例.</p>
-<h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>如果在task存在当前实例,并且在栈顶,不会新建一个实例, 只会调用Activity的onNewIntent().否则,<br>新建Activity实例.</p>
-<h2 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask"></a>singleTask</h2><p>如果当前task不存在该实例, 系统会新建一个实例并把这个实例放到一个新的task中.如果在task中存在该<br>实例,则会把位于该实例之上的Activity都出栈,并调用该实例的onNewIntent().然而当你设置了singleTask属性之后,你会发现,然并卵,还是在同一个Task中.这时候,你需要定义taskAffinity值.<br>任意值都可以，除了包名。因为task的taskAffinity默认为包名。</p>
-<h2 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance"></a>singleInstance</h2><p>跟singleTask的区别在于,新的task只存放一个实例,如果再启动其他Activity,会新建另一个task.<br>而singleTask模式中,新的task中可以存放其他实例,即如果再启动一个standard的Activity,还是存在<br>在当前task.</p>
 
       
     </div>
@@ -882,77 +927,10 @@
 
 
   
-    <article id="post-Toast" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2016/08/13/Toast/" class="article-date">
-      <time datetime="2016-08-12T17:38:16.000Z" itemprop="datePublished">2016-08-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/13/Toast/">Toast</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="Toast解析"><a href="#Toast解析" class="headerlink" title="Toast解析"></a>Toast解析</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>一句话:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Toast makeText(Context context, CharSequence text,  int duration).show();</div></pre></td></tr></table></figure></p>
-<h2 id="makeText"><a href="#makeText" class="headerlink" title="makeText"></a>makeText</h2><p>直接上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Make a standard toast that just contains a text view.</div><div class="line"> *</div><div class="line"> * @param context  The context to use.  Usually your &#123;@link android.app.Application&#125;</div><div class="line"> *                 or &#123;@link android.app.Activity&#125; object.</div><div class="line"> * @param text     The text to show.  Can be formatted text.</div><div class="line"> * @param duration How long to display the message.  Either &#123;@link #LENGTH_SHORT&#125; or</div><div class="line"> *                 &#123;@link #LENGTH_LONG&#125;</div><div class="line"> *</div><div class="line"> */</div><div class="line">public static Toast makeText(Context context, CharSequence text, @Duration int duration) &#123;</div><div class="line">    Toast result = new Toast(context);</div><div class="line"></div><div class="line">    LayoutInflater inflate = (LayoutInflater)</div><div class="line">            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</div><div class="line">    View v = inflate.inflate(com.android.internal.R.layout.transient_notification, null);</div><div class="line">    TextView tv = (TextView)v.findViewById(com.android.internal.R.id.message);</div><div class="line">    tv.setText(text);</div><div class="line"></div><div class="line">    result.mNextView = v;</div><div class="line">    result.mDuration = duration;</div><div class="line"></div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>很简单,就是构造了一个Toast出来,设置了Toast的布局以及Toast的显示时间.</p>
-<h2 id="show"><a href="#show" class="headerlink" title="show"></a>show</h2><p>同样先上代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Show the view for the specified duration.</div><div class="line"> */</div><div class="line">public void show() &#123;</div><div class="line">    if (mNextView == null) &#123;</div><div class="line">        throw new RuntimeException(&quot;setView must have been called&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    INotificationManager service = getService();</div><div class="line">    String pkg = mContext.getOpPackageName();</div><div class="line">    TN tn = mTN;</div><div class="line">    tn.mNextView = mNextView;</div><div class="line"></div><div class="line">    try &#123;</div><div class="line">        service.enqueueToast(pkg, tn, mDuration);</div><div class="line">    &#125; catch (RemoteException e) &#123;</div><div class="line">        // Empty</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>先判断mNextView,就是Toast的布局是否为空,如果是,直接抛出异常.接着来看看getService()做了什么.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static private INotificationManager getService() &#123;</div><div class="line">    if (sService != null) &#123;</div><div class="line">        return sService;</div><div class="line">    &#125;</div><div class="line">    sService = INotificationManager.Stub.asInterface(ServiceManager.getService(&quot;notification&quot;));</div><div class="line">    return sService;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>获取远程接口,实现类是NotificationManagerService.来看看这个服务中的enqueueToast()<br>方法.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void enqueueToast(String pkg, ITransientNotification callback, int duration)</div><div class="line">&#123;</div><div class="line">    ......</div><div class="line">    synchronized (mToastQueue) &#123;</div><div class="line">        int callingPid = Binder.getCallingPid();</div><div class="line">        long callingId = Binder.clearCallingIdentity();</div><div class="line">        try &#123;</div><div class="line">            ToastRecord record;</div><div class="line">            int index = indexOfToastLocked(pkg, callback);</div><div class="line">            // If it&apos;s already in the queue, we update it in place, we don&apos;t</div><div class="line">            // move it to the end of the queue.</div><div class="line">            if (index &gt;= 0) &#123;</div><div class="line">                record = mToastQueue.get(index);</div><div class="line">                record.update(duration);</div><div class="line">            &#125; else &#123;</div><div class="line">                // Limit the number of toasts that any given package except the android</div><div class="line">                // package can enqueue.  Prevents DOS attacks and deals with leaks.</div><div class="line">                if (!isSystemToast) &#123;</div><div class="line">                    int count = 0;</div><div class="line">                    final int N = mToastQueue.size();</div><div class="line">                    for (int i=0; i&lt;N; i++) &#123;</div><div class="line">                         final ToastRecord r = mToastQueue.get(i);</div><div class="line">                         if (r.pkg.equals(pkg)) &#123;</div><div class="line">                             count++;</div><div class="line">                             if (count &gt;= MAX_PACKAGE_NOTIFICATIONS) &#123;</div><div class="line">                                 Slog.e(TAG, &quot;Package has already posted &quot; + count</div><div class="line">                                        + &quot; toasts. Not showing more. Package=&quot; + pkg);</div><div class="line">                                 return;</div><div class="line">                             &#125;</div><div class="line">                         &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                record = new ToastRecord(callingPid, pkg, callback, duration);</div><div class="line">                mToastQueue.add(record);</div><div class="line">                index = mToastQueue.size() - 1;</div><div class="line">                keepProcessAliveLocked(callingPid);</div><div class="line">            &#125;</div><div class="line">            // If it&apos;s at index 0, it&apos;s the current toast.  It doesn&apos;t matter if it&apos;s</div><div class="line">            // new or just been updated.  Call back and tell it to show itself.</div><div class="line">            // If the callback fails, this will remove it from the list, so don&apos;t</div><div class="line">            // assume that it&apos;s valid after this.</div><div class="line">            if (index == 0) &#123;</div><div class="line">                showNextToastLocked();</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            Binder.restoreCallingIdentity(callingId);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面的核心代码很简单,就是先构造出ToastRecord, 并加入队列中.最后有一个判断:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (index == 0) &#123;</div><div class="line">    showNextToastLocked();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>看注释,如果index=0,那就是当前Toast,并显示它.来看看showNextToastLocked()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">void showNextToastLocked() &#123;</div><div class="line">        ToastRecord record = mToastQueue.get(0);</div><div class="line">        while (record != null) &#123;</div><div class="line">            if (DBG) Slog.d(TAG, &quot;Show pkg=&quot; + record.pkg + &quot; callback=&quot; + record.callback);</div><div class="line">            try &#123;</div><div class="line">                record.callback.show();</div><div class="line">                scheduleTimeoutLocked(record);</div><div class="line">                return;</div><div class="line">            &#125; catch (RemoteException e) &#123;</div><div class="line">                Slog.w(TAG, &quot;Object died trying to show notification &quot; + record.callback</div><div class="line">                        + &quot; in package &quot; + record.pkg);</div><div class="line">                // remove it from the list and let the process die</div><div class="line">                int index = mToastQueue.indexOf(record);</div><div class="line">                if (index &gt;= 0) &#123;</div><div class="line">                    mToastQueue.remove(index);</div><div class="line">                &#125;</div><div class="line">                keepProcessAliveLocked(record.pid);</div><div class="line">                if (mToastQueue.size() &gt; 0) &#123;</div><div class="line">                    record = mToastQueue.get(0);</div><div class="line">                &#125; else &#123;</div><div class="line">                    record = null;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>最重要的一句:record.callback.show(). 这个callback是ITransientNotification, 其实现类<br>是Toast的静态内部类TN. 这个show方法才是真正的显示Toast的方法,并且最终调用的是handleShow<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public void handleShow() &#123;</div><div class="line">    if (localLOGV) Log.v(TAG, &quot;HANDLE SHOW: &quot; + this + &quot; mView=&quot; + mView</div><div class="line">            + &quot; mNextView=&quot; + mNextView);</div><div class="line">    if (mView != mNextView) &#123;</div><div class="line">        // remove the old view if necessary</div><div class="line">        handleHide();</div><div class="line">        mView = mNextView;</div><div class="line">        Context context = mView.getContext().getApplicationContext();</div><div class="line">        String packageName = mView.getContext().getOpPackageName();</div><div class="line">        if (context == null) &#123;</div><div class="line">            context = mView.getContext();</div><div class="line">        &#125;</div><div class="line">        mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);</div><div class="line">        // We can resolve the Gravity here by using the Locale for getting</div><div class="line">        // the layout direction</div><div class="line">        final Configuration config = mView.getContext().getResources().getConfiguration();</div><div class="line">        final int gravity = Gravity.getAbsoluteGravity(mGravity, config.getLayoutDirection());</div><div class="line">        mParams.gravity = gravity;</div><div class="line">        if ((gravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL) &#123;</div><div class="line">            mParams.horizontalWeight = 1.0f;</div><div class="line">        &#125;</div><div class="line">        if ((gravity &amp; Gravity.VERTICAL_GRAVITY_MASK) == Gravity.FILL_VERTICAL) &#123;</div><div class="line">            mParams.verticalWeight = 1.0f;</div><div class="line">        &#125;</div><div class="line">        mParams.x = mX;</div><div class="line">        mParams.y = mY;</div><div class="line">        mParams.verticalMargin = mVerticalMargin;</div><div class="line">        mParams.horizontalMargin = mHorizontalMargin;</div><div class="line">        mParams.packageName = packageName;</div><div class="line">        if (mView.getParent() != null) &#123;</div><div class="line">            if (localLOGV) Log.v(TAG, &quot;REMOVE! &quot; + mView + &quot; in &quot; + this);</div><div class="line">            mWM.removeView(mView);</div><div class="line">        &#125;</div><div class="line">        if (localLOGV) Log.v(TAG, &quot;ADD! &quot; + mView + &quot; in &quot; + this);</div><div class="line">        mWM.addView(mView, mParams);</div><div class="line">        trySendAccessibilityEvent();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mWM.addView(mView, mParams);</div></pre></td></tr></table></figure></p>
-<p>,Toast就显示出来了.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">
